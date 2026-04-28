@@ -78,6 +78,16 @@ public class FinancialTracker {
                 file.createNewFile();
             }
             Scanner fileScanner = new Scanner(file);
+
+            while (fileScanner.hasNextLine()){
+                String line = fileScanner.nextLine();
+                String[] parts = line.split("\\|");
+                LocalDate date = LocalDate.parse(parts[0],DATE_FMT);
+                LocalTime time = LocalTime.parse(parts[1],TIME_FMT);
+                String description = parts[2];
+                String vendor = parts [3];
+                Double amount = parseDouble(parts[4]);
+            }
         } catch (IOException e) {
             System.out.println("ERROR LOADING TRANSATIONS");
             e.printStackTrace();
