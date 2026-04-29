@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,9 +33,6 @@ public class FinancialTracker {
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
-    /* ------------------------------------------------------------------
-       Main menu
-       ------------------------------------------------------------------ */
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
 
@@ -94,14 +92,8 @@ public class FinancialTracker {
         } catch (IOException e) {
             System.out.println("ERROR LOADING TRANSACTIONS");
             e.printStackTrace();
-
-
         }
     }
-
-    /* ------------------------------------------------------------------
-       Add new transactions
-       ------------------------------------------------------------------ */
 
     /**
      * Prompt for ONE date+time string in the format
@@ -110,7 +102,34 @@ public class FinancialTracker {
      * Store the amount as-is (positive) and append to the file.
      */
     private static void addDeposit(Scanner scanner) {
-        // TODO
+        System.out.print("Please enter date & time (yyyy-MM-dd HH:mm:ss): ");
+        String dateAndTime = scanner.nextLine().trim();
+        System.out.print("Please enter description: ");
+        String description = scanner.nextLine().trim();
+        System.out.print("Please enter the vendor: ");
+        String vendor = scanner.nextLine().trim();
+        System.out.println("Please enter the amount: ");
+        double amount = Double.parseDouble(scanner.nextLine().trim());
+
+        if (amount <= 0){
+            System.out.println("Please enter an amount greater than 0: ");
+            return;
+        }
+        LocalDate date = LocalDate.parse(dateAndTime,DATETIME_FMT);
+        LocalTime time = LocalTime.parse(dateAndTime,DATETIME_FMT);
+
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(transaction);
+
+        try {
+            FileWriter fileWriter = new FileWriter(FILE_NAME, true);
+            fileWriter.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error adding deposit to file");
+            e.printStackTrace();
+        }
+
     }
 
     /**
