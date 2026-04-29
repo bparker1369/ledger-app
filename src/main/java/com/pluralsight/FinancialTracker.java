@@ -95,12 +95,6 @@ public class FinancialTracker {
         }
     }
 
-    /**
-     * Prompt for ONE date+time string in the format
-     * "yyyy-MM-dd HH:mm:ss", plus description, vendor, amount.
-     * Validate that the amount entered is positive.
-     * Store the amount as-is (positive) and append to the file.
-     */
     private static void addDeposit(Scanner scanner) {
         System.out.print("Please enter date & time (yyyy-MM-dd HH:mm:ss): ");
         String dateAndTime = scanner.nextLine().trim();
@@ -132,11 +126,6 @@ public class FinancialTracker {
 
     }
 
-    /**
-     * Same prompts as addDeposit.
-     * Amount must be entered as a positive number,
-     * then converted to a negative amount before storing.
-     */
     private static void addPayment(Scanner scanner) {
         System.out.print("Please enter date & time (yyyy-MM-dd HH:mm:ss): ");
         String dateAndTime = scanner.nextLine().trim();
@@ -144,7 +133,7 @@ public class FinancialTracker {
         String description = scanner.nextLine().trim();
         System.out.print("Please enter the vendor: ");
         String vendor = scanner.nextLine().trim();
-        System.out.println("Please enter the amount: ");
+        System.out.print("Please enter the amount: ");
         double amount = Double.parseDouble(scanner.nextLine().trim());
 
         if (amount <= 0){
@@ -201,11 +190,34 @@ public class FinancialTracker {
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
-    private static void displayLedger() { /* TODO – print all transactions in column format */ }
+    private static void displayLedger() {
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction t = transactions.get(i);
+            System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
+                    "|" + t.getVendor() + "|" + t.getAmount());
+        }
+    }
 
-    private static void displayDeposits() { /* TODO – only amount > 0               */ }
+    private static void displayDeposits() {
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction t = transactions.get(i);
+            if (t.getAmount() > 0) {
+                System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
+                        "|" + t.getVendor() + "|" + t.getAmount());
+            }
+        }
+    }
 
-    private static void displayPayments() { /* TODO – only amount < 0               */ }
+    private static void displayPayments() {
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction t = transactions.get(i);
+
+            if (t.getAmount() < 0) {
+                System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
+                        "|" + t.getVendor() + "|" + t.getAmount());
+            }
+        }
+    }
 
     /* ------------------------------------------------------------------
        Reports menu
