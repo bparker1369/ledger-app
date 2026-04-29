@@ -87,10 +87,15 @@ public class FinancialTracker {
                 String description = parts[2];
                 String vendor = parts [3];
                 Double amount = parseDouble(parts[4]);
+
+                Transaction transaction = new Transaction(date, time, description, vendor, amount);
+                transactions.add(transaction);
             }
         } catch (IOException e) {
-            System.out.println("ERROR LOADING TRANSATIONS");
+            System.out.println("ERROR LOADING TRANSACTIONS");
             e.printStackTrace();
+
+
         }
     }
 

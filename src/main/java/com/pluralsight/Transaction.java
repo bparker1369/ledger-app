@@ -58,5 +58,6 @@ public class Transaction {
         this.vendor = vendor;
         this.amount = amount;
     }
+
 }
 
