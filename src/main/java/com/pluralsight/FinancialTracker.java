@@ -123,7 +123,7 @@ public class FinancialTracker {
 
         try {
             FileWriter fileWriter = new FileWriter(FILE_NAME, true);
-            fileWriter.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount);
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error adding deposit to file");
@@ -138,7 +138,37 @@ public class FinancialTracker {
      * then converted to a negative amount before storing.
      */
     private static void addPayment(Scanner scanner) {
-        // TODO
+        System.out.print("Please enter date & time (yyyy-MM-dd HH:mm:ss): ");
+        String dateAndTime = scanner.nextLine().trim();
+        System.out.print("Please enter description: ");
+        String description = scanner.nextLine().trim();
+        System.out.print("Please enter the vendor: ");
+        String vendor = scanner.nextLine().trim();
+        System.out.println("Please enter the amount: ");
+        double amount = Double.parseDouble(scanner.nextLine().trim());
+
+        if (amount <= 0){
+            System.out.println("Please enter an amount greater than 0: ");
+            return;
+        }
+
+        amount = -amount;
+
+        LocalDate date = LocalDate.parse(dateAndTime,DATETIME_FMT);
+        LocalTime time = LocalTime.parse(dateAndTime,DATETIME_FMT);
+
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(transaction);
+
+        try {
+            FileWriter fileWriter = new FileWriter(FILE_NAME, true);
+            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount);
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error adding deposit to file");
+            e.printStackTrace();
+        }
+
     }
 
     /* ------------------------------------------------------------------
