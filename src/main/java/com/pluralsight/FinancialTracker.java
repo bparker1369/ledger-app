@@ -283,7 +283,7 @@ public class FinancialTracker {
         for (int i = transactions.size() - 1; i >= 0; i--) {
             Transaction t = transactions.get(i);
 
-            if (!t.getDate().isBefore(start) && t.getDate().isAfter(end)) {
+            if (!t.getDate().isBefore(start) && !t.getDate().isAfter(end)) {
                 System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
                         "|" + t.getVendor() + "|" + t.getAmount());
             }
