@@ -238,10 +238,30 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> {/* TODO – month-to-date report */ }
-                case "2" -> {/* TODO – previous month report */ }
-                case "3" -> {/* TODO – year-to-date report   */ }
-                case "4" -> {/* TODO – previous year report  */ }
+                case "1" -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate startOfTheMonth = today.withDayOfMonth(1);
+                    filterTransactionsByDate(startOfTheMonth, today);
+                }
+                case "2" -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate startOfLastMonth = today.minusMonths(1).withDayOfMonth(1);
+                    LocalDate endOfLastMonth = startOfLastMonth.withDayOfMonth(startOfLastMonth.lengthOfMonth());
+                    filterTransactionsByDate(startOfLastMonth,endOfLastMonth);
+
+                }
+                case "3" -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate startOfLastYear = today.withDayOfYear(1);
+                    filterTransactionsByDate(startOfLastYear, today);
+
+                }
+                case "4" -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate lastYearFromDate = today.minusYears(1);
+                    filterTransactionsByDate(lastYearFromDate, today);
+
+                }
                 case "5" -> {/* TODO – prompt for vendor then report */ }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
@@ -254,7 +274,14 @@ public class FinancialTracker {
        Reporting helpers
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
-        // TODO – iterate transactions, print those within the range
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction t = transactions.get(i);
+
+            if (!t.getDate().isBefore(start) && t.getDate().isAfter(end)) {
+                System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
+                        "|" + t.getVendor() + "|" + t.getAmount());
+            }
+        }
     }
 
     private static void filterTransactionsByVendor(String vendor) {
