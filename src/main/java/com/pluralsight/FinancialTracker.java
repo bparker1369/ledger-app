@@ -269,7 +269,6 @@ public class FinancialTracker {
                     String vendor = scanner.nextLine().trim();
                     filterTransactionsByVendor(vendor);
                 }
-                case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
             }
@@ -301,21 +300,21 @@ public class FinancialTracker {
         }
     }
 
-    private static void customSearch(Scanner scanner) {
-        // TODO – prompt for any combination of date range, description,
-        //        vendor, and exact amount, then display matches
-    }
-
-    /* ------------------------------------------------------------------
-       Utility parsers (you can reuse in many places)
-       ------------------------------------------------------------------ */
+    private static void customSearch(Scanner scanner) {}
+        //
     private static LocalDate parseDate(String s) {
-        /* TODO – return LocalDate or null */
-        return null;
+        try {
+            return LocalDate.parse(s, DATE_FMT);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static Double parseDouble(String s) {
-        /* TODO – return Double   or null */
-        return null;
+        try {
+            return Double.parseDouble(s);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
