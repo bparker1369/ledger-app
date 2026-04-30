@@ -289,7 +289,6 @@ public class FinancialTracker {
             }
         }
     }
-
     private static void filterTransactionsByVendor(String vendor) {
         for (int i = transactions.size() - 1; i >= 0; i--) {
             Transaction t = transactions.get(i);
