@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 /*
@@ -237,7 +238,7 @@ public class FinancialTracker {
 
             String input = scanner.nextLine().trim();
 
-            switch (input) {
+            switch (input){
                 case "1" -> {
                     LocalDate today = LocalDate.now();
                     LocalDate startOfTheMonth = today.withDayOfMonth(1);
@@ -252,17 +253,22 @@ public class FinancialTracker {
                 }
                 case "3" -> {
                     LocalDate today = LocalDate.now();
-                    LocalDate startOfLastYear = today.withDayOfYear(1);
-                    filterTransactionsByDate(startOfLastYear, today);
+                    LocalDate startOfYear = today.withDayOfYear(1);
+                    filterTransactionsByDate(startOfYear, today);
 
                 }
                 case "4" -> {
                     LocalDate today = LocalDate.now();
-                    LocalDate lastYearFromDate = today.minusYears(1);
-                    filterTransactionsByDate(lastYearFromDate, today);
+                    LocalDate firstOfLastYear = today.minusYears(1).withDayOfYear(1);
+                    LocalDate lastOfLastYear = firstOfLastYear.withDayOfYear(firstOfLastYear.lengthOfYear());
+                    filterTransactionsByDate(firstOfLastYear, lastOfLastYear);
 
                 }
-                case "5" -> {/* TODO – prompt for vendor then report */ }
+                case "5" ->{
+                    System.out.print("Please enter the vendor: ");
+                    String vendor = scanner.nextLine().trim();
+                    filterTransactionsByVendor(vendor);
+                }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -285,7 +291,15 @@ public class FinancialTracker {
     }
 
     private static void filterTransactionsByVendor(String vendor) {
-        // TODO – iterate transactions, print those with matching vendor
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            Transaction t = transactions.get(i);
+
+            if (t.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(t.getDate() + "|" + t.getTime() + "|" + t.getDescription() +
+                        "|" + t.getVendor() + "|" + t.getAmount());
+
+            }
+        }
     }
 
     private static void customSearch(Scanner scanner) {
