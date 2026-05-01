@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class FinancialTracker {
@@ -99,7 +98,7 @@ public class FinancialTracker {
 
         try {
             FileWriter fileWriter = new FileWriter(FILE_NAME, true);
-            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount);
+            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount + "\n");
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error adding deposit to file");
@@ -133,7 +132,7 @@ public class FinancialTracker {
 
         try {
             FileWriter fileWriter = new FileWriter(FILE_NAME, true);
-            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount);
+            fileWriter.write( DATE_FMT.format(date) + "|" + TIME_FMT.format(time) + "|" + description + "|" + vendor + "|" + amount + "\n");
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error adding deposit to file");
@@ -206,7 +205,6 @@ public class FinancialTracker {
             System.out.println("3) Year To Date");
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
-            System.out.println("6) Custom Search");
             System.out.println("0) Back");
 
             String input = scanner.nextLine().trim();
